@@ -43,18 +43,12 @@ import pandas as pd
 import numpy as np
 
 fruits = pd.read_csv(f'{home}/csc-466-student/data/fruit_data_with_colours.csv')
-## BEGIN SOLUTION
-fruits.head() # Returns the first 5 rows of the data
-## END SOLUTION
 # YOUR SOLUTION HERE
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think: Can you extract the column names?**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-pd.Series(fruits.columns)
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Terminology note:** I will often in this course refer to most of these columns as "features". This is standard terminology in KDD/ML/AI.
@@ -63,41 +57,26 @@ pd.Series(fruits.columns)
 # **Stop and think: How many examples of fruit do we have?**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-len(fruits)
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think: What are you unique fruit names in our dataset?**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-fruits.fruit_name.unique()
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think: What are you unique fruit names in our dataset (take 2)?**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-fruits['fruit_name'].unique()
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think: Write some code to count the number of each type of fruit**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-fruits['fruit_name'].value_counts()
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think: Is there an easy way to plot this with Pandas?**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-fruits['fruit_name'].value_counts().plot.bar();
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # ### Scope of this course
@@ -112,9 +91,6 @@ fruits['fruit_name'].value_counts().plot.bar();
 # Note: when it is convienent and non-ambiguous, we will use shorthands such as ${\it Prob}({\it fruit\_name}={\it mandarin}) = P(mandarin)$
 
 # + [markdown] slideshow={"slide_type": "subslide"}
-# #### BEGIN SOLUTION
-# 5/59
-# #### END SOLUTION
 # #### What is your answer?
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -162,9 +138,6 @@ sum(fruits.width == 8.4)
 # **Stop and think: Can you guess how to make a histogram with matplotlib and pandas?**
 
 # + slideshow={"slide_type": "subslide"}
-## BEGIN SOLUTION
-fruits.width.plot.hist();
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # You can look at the documentation of a function in here using:
@@ -179,9 +152,6 @@ fruits.width.plot.hist();
 # Does 10 look like an appropriate bin width for the width column?
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-fruits.width.plot.hist(bins=5);
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # Is that better? One the biggest problems we are facing down at the moment is that in this graph there are all kinds of different fruits. They *probably* all have different distributions with different means. So even if we kept going, this approach doesn't match our intuition of a good solution.
@@ -260,9 +230,6 @@ width_binned_counts.loc[binned_value]
 # **Stop and think: What is the probability of a width of 7.2 given that the fruit is an orange?**
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-width_binned_counts.loc[binned_value]/width_binned_counts.sum()
-## END SOLUTION
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # How does this help us get our final answer? Bayes tells us how to invert this quantity to get what we want.
@@ -279,14 +246,6 @@ width_binned_counts.loc[binned_value]/width_binned_counts.sum()
 # **Stop and think: Fill in everything except $\Pr(7.2|\neg orange)\Pr(\neg orange)$**
 
 # + [markdown] slideshow={"slide_type": "fragment"}
-# #### BEGIN SOLUTION
-# ```python
-# likelihood = width_binned_counts.loc[binned_value]/width_binned_counts.sum()
-# prior = sum(fruits.fruit_name == 'orange')/len(fruits)
-# unknown = None
-# (likelihood * prior)/(likelihood*prior + unknown)
-# ```
-# #### END SOLUTION
 # #### Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -310,19 +269,6 @@ binned_value
 #    IF there are not any fruits with that width, set the likelihood equal to 0
 #    OTHERWISE set the likelihood of that fruit equal to the fraction of total fruits in this bin
 #    CALCULATE the prior probability of fruit
-#### BEGIN SOLUTION
-likelihood = {}
-prior = {}
-for fruit in fruits.fruit_name.unique():
-    width_binned,width_bins = pd.cut(fruits.width.loc[fruits.fruit_name==fruit],5,retbins=True)
-    width_binned_counts = width_binned.value_counts()
-    binned_value = pd.cut([7.2],width_bins)[0]
-    if binned_value in width_binned_counts.index:
-        likelihood[fruit] = width_binned_counts.loc[binned_value]/width_binned_counts.sum()
-    else: # if this value isn't in our distribution
-        likelihood[fruit] = 0
-    prior[fruit] = sum(fruits.fruit_name == fruit)/len(fruits)
-#### END SOLUTION
 likelihood['orange']*prior['orange']/(likelihood['orange']*prior['orange'] + 
                                       likelihood['apple']*prior['apple'] +
                                       likelihood['lemon']*prior['lemon'] +

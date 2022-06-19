@@ -91,24 +91,12 @@ Y
 # **Stop and think:** How do you factor in prior knowledge (i.e., answers to prior questions)?
 
 # + [markdown] slideshow={"slide_type": "fragment"}
-# ##### BEGIN SOLUTION
-# Specific conditional entropy
-#
-# ${\displaystyle \mathrm {H} {(S|X=x)}=\sum _{y\in V_Y}{-p(y|X=x)\log _{2}p(y|X=x)}}$
-#
-# where $X$ is one of the features.
-# ##### END SOLUTION
 # Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think:** How do you measure the entropy if you knew all the possible answers?
 
 # + [markdown] slideshow={"slide_type": "fragment"}
-# ##### BEGIN SOLUTION
-# Conditional entropy
-#
-# ${\displaystyle \mathrm {H} {(S|X)}=\sum _{x \in V_X} p(X=x) \sum _{y \in V_Y}{-p(y|X=x)\log _{2}p(y|X=x)}}$
-# ##### END SOLUTION
 # Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -143,9 +131,6 @@ Y
 # + [markdown] slideshow={"slide_type": "subslide"}
 # So our next natural question is ... how do we compare algorithms?
 #
-# ##### BEGIN SOLUTION
-# We have a number of metrics, but if you are looking for a very common single metric, F1 score is popular.
-# ##### END SOLUTION
 # ##### Your solution here
 # -
 

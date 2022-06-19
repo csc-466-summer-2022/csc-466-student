@@ -54,36 +54,20 @@ home = str(Path.home()) # all other paths are relative to this path. change to s
 # + [markdown] slideshow={"slide_type": "subslide"}
 # #### Stop and think: Will this algorithm converge at all times?
 #
-# #### BEGIN SOLUTION
-# Yes. Assuming you break ties in a consistent manner the algorithm is gurateed to settle on a final solution.
-# #### END SOLUTION
 # #### Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
 # #### Stop and think: How do you pick the starting locations?
 #
-# #### BEGIN SOLUTION
-# Randomly is ok if you run kmeans a few times and then discard the solutions that did not converge to a good solution.
-# #### END SOLUTION
 # #### Your solution here
 # -
 
 # #### Stop and think: What is the best way?
 #
-# #### BEGIN SOLUTION
-# No. Can you draw a picture where it did not converge to the optimal solution?
-# #### END SOLUTION
 # #### Your solution here
 
 # #### Stop and think: How do you measure a good solution in clustering?
 #
-# #### BEGIN SOLUTION
-# ${\it distortion} = \sum_{i=1}^R \left(x_i - c_{encode(x_i)}\right)^2$
-#
-# OR
-#
-# Silhouette - discussed in lab
-# #### END SOLUTION
 # #### Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -108,9 +92,6 @@ X.head()
 # Stop and think: Implement a function that calculates the distance between two vectors using Euclidean distance
 def distance(x,c):
     d = None
-    ### BEGIN SOLUTION
-    d = np.sqrt(((x - c)**2).sum())
-    ### END SOLUTION
     return d
 
 distance(X.loc[0],X.loc[1])
@@ -119,10 +100,6 @@ distance(X.loc[0],X.loc[1])
 # Stop and think: How would you find k random means for starting the clustering?
 means = None
 k = 6
-## BEGIN SOLUTION
-means = X.sample(n=k)
-means.index = np.arange(k)
-## END SOLUTION
 
 means
 
@@ -141,21 +118,6 @@ alt.Chart(means).mark_circle(color='black',size=200).encode(
 # Stop and think: How would you compute the distortion?
 clusters = []
 distortion = 0
-### BEGIN SOLUTION
-for i in range(len(X)):
-    x = X.iloc[i]
-    min_d = np.Inf
-    min_j = None
-    for j in range(k):
-        c = means.iloc[j]
-        d = distance(c,x)
-        if d < min_d:
-            min_j = j
-            min_d = d
-            
-    clusters.append(min_j)
-    distortion += min_d
-### END SOLUTION
 # Your solution here
 Xc = X.copy()
 Xc['cluster']=clusters
@@ -167,9 +129,6 @@ distortion
 # + slideshow={"slide_type": "subslide"}
 # Stop and think: How would you recompute the mean?
 means = None
-### BEGIN SOLUTION
-means = Xc.groupby('cluster').mean()
-### END SOLUTION
 # Your solution here
 means
 
@@ -183,32 +142,8 @@ means
 
 # + slideshow={"slide_type": "subslide"}
 # Stop and think: How would you visualize the clustering?
-## BEGIN SOLUTION
-import altair as alt
-
-alt.Chart(Xc).mark_circle(size=60).encode(
-    x='ESR1',
-    y='AURKA',
-    color='cluster:N'
-) + alt.Chart(means).mark_circle(color='black',size=200).encode(
-    x='ESR1',
-    y='AURKA')
-## END SOLUTION
 # Your solution here
 
 # + slideshow={"slide_type": "subslide"}
 # Stop and think: Can you overlay the actual subtypes on this in any manner?
-## BEGIN SOLUTION
-import altair as alt
-
-source = Xc.copy()
-source['Subtype'] = df['Subtype']
-
-alt.Chart(source).mark_circle(size=60).encode(
-    x='ESR1',
-    y='AURKA',
-    row='Subtype:N',
-    color='cluster:N'
-)
-## END SOLUTION
 # Your solution here

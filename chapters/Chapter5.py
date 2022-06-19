@@ -107,13 +107,6 @@ t_train_sample
 ntrees = 51
 trees = []
 # Your solution here
-## BEGIN SOLUTION
-for i in range(ntrees):
-    clf = DecisionTreeClassifier(random_state=0)
-    X_train_sample, t_train_sample = resample(X_train, t_train)
-    clf.fit(X_train_sample,t_train_sample)
-    trees.append(clf)
-## END SOLUTION
 
 def vote(trees,X):
     votes = np.zeros((len(X),len(trees)))

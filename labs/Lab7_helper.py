@@ -16,9 +16,6 @@ def predict_user_user(data_raw,x_raw,N=10,frac=0.02):
     # Now this is a little tricky to think about, but we want to create a train test split of the movies
     # that user x_raw.name has rated. We need some of them but want some of them removed for testing.
     # This is where the frac parameter is used. I want you to think about how to select movies for training
-    ## BEGIN SOLUTION
-    ix_raw, ix_raw_test = train_test_split(x_raw.dropna().index,test_size=frac,random_state=42) # Got to ignore some movies
-    ## END SOLUTION
     # Your solution here
     #ix_raw, ix_raw_test = train_test_split(???,test_size=frac,random_state=42) # Got to ignore some movies
     
@@ -30,10 +27,6 @@ def predict_user_user(data_raw,x_raw,N=10,frac=0.02):
 
     preds = []
     for movie in ix_raw_test:
-        ## BEGIN SOLUTION
-        print(sum(np.isnan(data_raw.drop(x_raw.name)[movie]) == False))
-        sims = db.loc[np.isnan(data_raw.drop(x_raw.name)[movie]) == False].apply(lambda y: (y.values*x.values).sum()/(np.sqrt((y**2).sum())*np.sqrt((x**2).sum())),axis=1)
-        ## END SOLUTION
         # Your solution here
         #sims = db.loc[??? Only look at users who have rated this movie ???].apply(lambda y: (y.values*x.values).sum()/(np.sqrt((y**2).sum())*np.sqrt((x**2).sum())),axis=1)
         sims = sims.dropna()
@@ -44,9 +37,6 @@ def predict_user_user(data_raw,x_raw,N=10,frac=0.02):
             continue
         top_sims = sorted_sims.iloc[:N]
         ids = top_sims.index
-        ## BEGIN SOLUTION
-        preds.append(db.loc[ids][movie].mean())
-        ## END SOLUTION
         # Your solution here
         #preds.append(??? using ids how do you predict ???)
     pred = pd.Series(preds,index=x_raw_test.index)
@@ -60,24 +50,15 @@ def predict_item_item(data_raw,x_raw,N=10,frac=0.02,debug={}):
     
     db = data_raw.drop(x_raw.name)
     db = (db.T-db.T.mean()).fillna(0).T
-    ## BEGIN SOLUTION
-    db = db.transpose()
-    ## END SOLUTION
     # ??? db = FIX DB SO WE CAN KEEP CODE SIMILAR BUT DO ITEM-ITEM ???
     preds = []
     for movie in ix_raw_test:
         x = db.loc[movie]
-        ## BEGIN SOLUTION
-        sims = (db.drop(movie).loc[ix_raw].apply(lambda y: (y.values*x.values).sum()/(np.sqrt((y**2).sum())*np.sqrt((x**2).sum())),axis=1)+1)/2
-        ## END SOLUTION
         # sims = db.drop(movie).loc[??? ONLY SELECT MOVIES IN TRAINING SET WHICH USER HAS RATED ???].apply(lambda y: (y.values*x.values).sum()/(np.sqrt((y**2).sum())*np.sqrt((x**2).sum())),axis=1)
         sims = sims.dropna()
         sorted_sims = sims.sort_values()[::-1]
         top_sims = sorted_sims.iloc[:N]
         ids = top_sims.index
-        ## BEGIN SOLUTION
-        preds.append(x_raw.loc[ids].mean())
-        ## END SOLUTION
         #preds.append(??? HOW TO PREDICTION ???)
     pred = pd.Series(preds,index=x_raw_test.index)
     actual = x_raw_test

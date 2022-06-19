@@ -128,9 +128,6 @@ X.head()
 # #### Stop and think: How do we make a variable called ``t`` that is 1 if it is an apple, 0 otherwise?
 
 # + slideshow={"slide_type": "subslide"}
-## BEGIN SOLUTION
-t = (fruits2['fruit_name'] == 'apple').astype(int)
-## END SOLUTION
 # Your solution here
 t
 
@@ -149,11 +146,6 @@ x
 # #### Stop and think: How would you scale each column in X so it has a mean of 0 and standard deviation of 1?
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-means = X.mean()
-sds = X.std()
-X2 = X.apply(lambda x: (x-means)/sds,axis=1)
-## END SOLUTION
 # Your solution here
 X2.head()
 
@@ -170,9 +162,6 @@ x
 # #### Stop and think: What should we set them to?
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-w = [1,1,1] # because why not?
-## END SOLUTION
 # Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -191,9 +180,6 @@ def activation(net,threshold=0):
 # #### Stop and think: How would you use $w$, $x$, and the activation function to get a prediction?
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-activation(np.sum(w*x))
-## END SOLUTION
 # Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -270,21 +256,12 @@ w = [1,1,1] # because why not?
 for epoch in range(nepochs):
     y_train2 = None
     y_val = None
-    ## BEGIN SOLUTION
-    y_train2 = X_train2.apply(lambda x: activation(np.sum(w*x)),axis=1)
-    y_val = X_val.apply(lambda x: activation(np.sum(w*x)),axis=1)
-    ## END SOLUTION
     # Your solution here
     
     train_accuracy.append(sum(t_train2 == y_train2)/len(t_train2))
     val_accuracy.append(sum(t_val == y_val)/len(t_val))
     
     for i in range(len(y_train2)):
-        ## BEGIN SOLUTION
-        w[0] = w[0] - n*(y_train2.iloc[i] - t_train2.iloc[i])*X_train2.iloc[i,0]
-        w[1] = w[1] - n*(y_train2.iloc[i] - t_train2.iloc[i])*X_train2.iloc[i,1]
-        w[2] = w[2] - n*(y_train2.iloc[i] - t_train2.iloc[i])*X_train2.iloc[i,2]
-        ## END SOLUTION
         # Update those weights!
         # Your solution here
         

@@ -10,68 +10,26 @@ from pandas.api.types import is_numeric_dtype
 def entropy(y):
     e = None
     # YOUR SOLUTION HERE
-    ## BEGIN SOLUTION
-    counts = y.value_counts()
-    counts = counts.fillna(0)
-    probs = counts/sum(counts)
-    probs_log = copy.deepcopy(probs)
-    probs_log[probs==0] = 1
-    logs = np.log2(probs_log)
-    e = sum(-probs*(logs))
-    ## END SOLUTION
     return e
 
 def gain(y,x):
     g = 0
     # YOUR SOLUTION HERE
-    ## BEGIN SOLUTION
-    for f in x.unique():
-        mask = x == f
-        ysplit = y.loc[mask]
-        esplit = entropy(ysplit)
-        g += len(ysplit)/len(y)*esplit
-    ## END SOLUTION
     return entropy(y) - g
 
 def gain_ratio(y,x):
     # YOUR SOLUTION HERE
-    ## BEGIN SOLUTION
-    g = gain(y,x)
-    ## END SOLUTION
     return g/entropy(y)
 
 def select_split(X,y):
     col = None
     gr = None
-    ## BEGIN SOLUTION
-    gain_ratios = {}
-    for column in X.columns:
-        gain_ratios[column] = gain_ratio(y,X[column])
-    gain_ratios = pd.Series(gain_ratios)
-    col,gr = gain_ratios.idxmax(),gain_ratios.max()
-    ## END SOLUTION
     # YOUR SOLUTION HERE
     return col,gr
 
 def make_tree(X,y):
     tree = {}
     # Your solution here
-    ## BEGIN SOLUTION
-    if len(y.unique()) == 1:
-        return y.unique()[0]
-    if len(X.columns) == 0: # nothing to check and we've used all variables
-        return y.value_counts().idxmax()
-    split_var,gain = select_split(X,y)
-    # nothing to gain
-    if gain <= 0.000001:
-        return y.value_counts().idxmax()
-    tree[split_var] = {}
-    for xv in X[split_var].unique():
-        mask = X[split_var] == xv
-        Xsubset = X.loc[mask]
-        ysubset = y.loc[mask]
-        tree[split_var][xv] = make_tree(Xsubset.drop(split_var,axis=1),ysubset)
-    ## END SOLUTION
     return tree
 
 # if you want to print like me :)
@@ -95,15 +53,6 @@ def print_tree(tree):
 def generate_rules(tree):
     rules = []
     # Your solution here
-    ## BEGIN SOLUTION
-    if type(tree) != dict:
-        return [[tree]]
-    for key in tree.keys():
-        for xv in tree[key]:
-            new_rules = generate_rules(tree[key][xv])
-            for rule in new_rules:
-                rules.append([(key,xv)]+rule)
-    ## END SOLUTION
     return rules
 
 def split_col(x, y):
@@ -177,27 +126,4 @@ def make_tree2(X,y,min_split_count=5):
 
 def make_prediction(rules,x,default):
     # Your solution here
-    ## BEGIN SOLUTION
-    for rule in rules:
-        matches = True
-        for cond in rule[:-1]:
-            split_value,xv = cond
-            if "<" not in split_value:
-                if x.loc[split_value] != xv:
-                    matches = False
-                    break
-            else:
-                col,cutpoint = split_value.split("<")
-                cutpoint = float(cutpoint)
-                if xv == 'True':
-                    if x.loc[col] >= cutpoint:
-                        matches = False
-                        break
-                else:
-                    if x.loc[col] < cutpoint:
-                        matches = False
-                        break
-        if matches:
-            return rule[-1]
-    ## END SOLUTION
     return(default)

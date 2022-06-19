@@ -77,11 +77,6 @@ Xdense
 # **Stop and think:** What word appears most often?
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(text)
-sums = pd.Series(X.sum(axis=0).flat,index=vectorizer.get_feature_names())
-## END SOLUTION
 # Your solution here
 sums.sort_values(ascending=False).head(30)
 
@@ -119,10 +114,6 @@ sums.sort_values(ascending=False).iloc[:20].plot.bar();
 
 # + slideshow={"slide_type": "fragment"}
 from sklearn.feature_extraction.text import TfidfVectorizer
-## BEGIN SOLUTION
-vec = TfidfVectorizer(stop_words='english',norm=None)
-tf_idf_sparse = vec.fit_transform(text)
-## END SOLUTION
 # Your solution here
 pd.Series(vec.idf_,index=vec.get_feature_names()).sort_values()
 

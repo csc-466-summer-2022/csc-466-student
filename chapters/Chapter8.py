@@ -102,9 +102,6 @@ ax.set_xlabel('Rating');
 # **Stop and think:** How can we handle the genres column?
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-genres = data['genres'].str.get_dummies(sep='|')
-## END SOLUTION
 # Your solution here
 genres.head()
 
@@ -112,14 +109,6 @@ genres.head()
 # **Stop and think:** How would you calculate the average score per genre?
 
 # + slideshow={"slide_type": "fragment"}
-### BEGIN SOLUTION
-genres_nan = genres.copy().astype(float)
-genres_nan.values[np.where(genres == 0)] = np.NaN
-dt = genres_nan.multiply(data['rating'],axis='index')
-dt2 = dt.melt().dropna()
-dt2.columns = ["genre","rating"]
-means = dt2.groupby('genre')['rating'].mean()
-### END SOLUTION
 # Your solution here
 means.sort_values()
 
@@ -149,9 +138,6 @@ ratings.unstack().stack() # we can do this all day
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think:** Why is it a bad idea to fill in 0 for missing values without any other modifications to the data? What could help?
 #
-# ##### BEGIN SOLUTION
-# Given our data has a scale of 1-5 with 1 being the worst. A value of 0 therefore means even worse than the worst. And we would assign that to a movie we don't know anything about. Probably not a good idea...
-# ##### END SOLUTION
 # Your answer here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -181,9 +167,6 @@ x
 #
 # **Stop and think:** Why would we not use Euclidean distance? Consider two users who fail to rate any movies?
 #
-# ##### BEGIN SOLUTION
-# The distance between 0 and 0 is well 0. That is the same distance between 3 and 3. But 0 is an average rating for a user, and most likely it is a movie they have never seen (i.e., we inserted the 0). So consider it as part of a good match is not appropriate.
-# ##### END SOLUTION
 # ##### Your solution here
 
 # + [markdown] slideshow={"slide_type": "subslide"}
@@ -211,9 +194,6 @@ ratings_df.loc[userIds]
 # + [markdown] slideshow={"slide_type": "subslide"}
 # **Stop and think:** How do we make a prediction?
 #
-# ##### BEGIN SOLUTION
-# We could compute the mean from the neighborhood for each prediction
-# ##### END SOLUTION
 # Your solution here
 
 # + slideshow={"slide_type": "subslide"}

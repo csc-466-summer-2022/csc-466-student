@@ -171,12 +171,6 @@ g
 
 # + slideshow={"slide_type": "fragment"}
 COV = pd.DataFrame(columns=X.columns,index=X.columns)
-## BEGIN SOLUTION
-Xbar = X.mean()
-for ix in COV.index:
-    for col in COV.columns:
-        COV.loc[ix,col] = 1/(len(X)-1)*np.sum((X[ix]-Xbar[ix])*(X[col]-Xbar[col]))
-## END SOLUTION
 COV
 # Your solution here
 
@@ -206,7 +200,6 @@ import numpy as np
 ## BEGIN SOLUTUION
 coeff = [1,-(a+d),(a*d - b*c)]
 lambdas = np.roots(coeff)
-## END SOLUTION
 # Your solution here
 lambdas
 
@@ -222,10 +215,6 @@ lambdas
 # To solve either of these equations, let $x=1$ and then solve for $y$. Take that vector and normalize it to have a length of 1.
 
 # + slideshow={"slide_type": "fragment"}
-## BEGIN SOLUTION
-x = 1
-y = (lambdas - a)/b
-## END SOLUTION
 # Your solution here
 y
 
@@ -251,7 +240,6 @@ print("Second eigen vector:",v2)
 # + slideshow={"slide_type": "subslide"}
 ## BEGIN SOLTUION
 PC1_score = np.sum(X.iloc[0]*v1)
-## END SOLUTION
 # Your solution here
 PC1_score
 
