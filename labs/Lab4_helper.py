@@ -104,6 +104,7 @@ def select_split2(X,y):
     return newname ,gr
 
 def make_tree2(X,y,min_split_count=5):
+    X = X.copy()
     tree = {}
     if len(X.columns) == 0:
         return y.value_counts().idxmax()
