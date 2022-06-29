@@ -26,19 +26,16 @@ def truncate(d, mult=10000):
     return d
 
 
-titanic_df = pd.read_csv(
-    f"{DIR}/../data/titanic.csv"
+heartdisease_df = pd.read_csv(
+    f"{DIR}/../data/heart_disease.csv"
 )
-
-features = ['Pclass','Sex','Age','SibSp','Parch','Fare','Cabin','Embarked']
-titanic_df2 = titanic_df.loc[:,features]
-titanic_df2['CabinLetter'] = titanic_df2['Cabin'].str.slice(0,1)
-X = pd.get_dummies(titanic_df2.drop('Cabin',axis=1)).dropna()
-# Standard scaling
+X = heartdisease_df.drop(labels=["HeartDisease", "heart_disease"], axis=1)[:1000]
+X = X.dropna()
+X = pd.get_dummies(X)
 means = X.mean()
 sds = X.std()
 X2 = X.apply(lambda x: (x-means)/sds,axis=1)
-t = titanic_df.loc[X2.index,'Survived']
+t = heartdisease_df.loc[X2.index,'heart_disease']
 
 def test_exercise_1():
     seeds = [0,1,2,3,4,5]
@@ -53,7 +50,8 @@ def test_exercise_1():
 
         results = results.append(pd.Series([frac_max_class,accuracy_test,accuracy_train2,accuracy_val],index=results.columns,name=seed))
     m = 1000
-    assert np.all(np.round(m*answers['exercise_1'].values) == np.round(m*results.values))
+    import pdb; pdb.set_trace()
+    assert np.all(np.round(m*answers['exercise_1'].values.astype(float)) == np.round(m*results.values.astype(float)))
 
 def test_exercise_2():
     w,X_test,t_test,results = Lab3_helper.train(X2,t,seed=0)
@@ -77,4 +75,4 @@ def test_exercise_5():
     seeds = [0,1,2,3,4,5]
     importances = Lab3_helper.importance(X2,t,seeds)
     m = 1000
-    assert np.all(np.round(m*answers['exercise_5'].values) == np.round(m*importances.values))
+    assert np.all(np.round(m*answers['exercise_5'].values.astype(float)) == np.round(m*importances.values.astype(float)))
