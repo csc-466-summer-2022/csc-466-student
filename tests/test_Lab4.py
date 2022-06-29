@@ -40,19 +40,19 @@ m = 1000
 
 def test_exercise_1():
     e1 = Lab4_helper.entropy(t)
-    e2 = Lab4_helper.entropy(X2['CabinLetter'])
+    e2 = Lab4_helper.entropy(X2['Income'])
     assert np.round(m*answers['exercise_1'][1]) == np.round(m*e2)
 
 def test_exercise_2():
     g1 = Lab4_helper.gain(t,X2['Sex'])
-    g2 = Lab4_helper.gain(t,X2['Pclass'])
+    g2 = Lab4_helper.gain(t,X2['Income'])
     g3 = Lab4_helper.gain(t,X2['Age'])
     assert np.round(m*answers['exercise_2'][2]) == np.round(m*g3)
 
 def test_exercise_3():
     gr1 = Lab4_helper.gain_ratio(t,X2['Sex'])
-    gr2 = Lab4_helper.gain_ratio(t,X2['Pclass'])
-    gr3 = Lab4_helper.gain_ratio(t,X2['Age'])   
+    gr2 = Lab4_helper.gain_ratio(t,X2['Income'])
+    gr3 = Lab4_helper.gain_ratio(t,X2['Age']) 
     assert np.round(m*answers['exercise_3'][2]) == np.round(m*gr3)
 
 def test_exercise_4():
