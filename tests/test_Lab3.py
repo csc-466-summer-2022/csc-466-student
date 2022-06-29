@@ -50,7 +50,6 @@ def test_exercise_1():
 
         results = results.append(pd.Series([frac_max_class,accuracy_test,accuracy_train2,accuracy_val],index=results.columns,name=seed))
     m = 1000
-    import pdb; pdb.set_trace()
     assert np.all(np.round(m*answers['exercise_1'].values.astype(float)) == np.round(m*results.values.astype(float)))
 
 def test_exercise_2():
