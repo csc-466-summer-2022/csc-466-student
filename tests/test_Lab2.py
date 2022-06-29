@@ -58,6 +58,13 @@ def test_exercise_4():
     x = titanic_df.drop("Survived",axis=1).loc[2]
     post_probs = Lab2_helper.posteriors(probs,priors,x)
     assert truncate(answers['exercise_4']) == truncate(post_probs)
+    
+    # New edge case test
+    x = titanic_df.drop("Survived",axis=1).loc[2]
+    x = x.copy()
+    x['Age'] = 200 # Age that is not in the dataset
+    post_probs = Lab2_helper.posteriors(probs,priors,x)
+    assert tuple(post_probs.values())  == (0.5,0.5)
 
 def test_exercise_5():
     np.random.seed(2)
