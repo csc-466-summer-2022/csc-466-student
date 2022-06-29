@@ -27,7 +27,7 @@ def truncate(d, mult=10000):
 
 
 diabetes_df = pd.read_csv(
-    f"../data/diabetes_indicators.csv"
+    f"{DIR}/../data/diabetes_indicators.csv"
 )
 features = ['Sex','Age','Education','Income','Fruits','Veggies','Smoker', "HighChol", "BMI"]
 X = diabetes_df.loc[:,features][:1000]
