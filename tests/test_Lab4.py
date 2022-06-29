@@ -26,28 +26,15 @@ def truncate(d, mult=10000):
     return d
 
 
-titanic_df = pd.read_csv(
-    f"{DIR}/../data/titanic.csv"
+diabetes_df = pd.read_csv(
+    f"../data/diabetes_indicators.csv"
 )
-
-features = ['Pclass','Sex','Age','SibSp','Parch','Fare','Cabin','Embarked']
-titanic_df2 = titanic_df.loc[:,features]
-titanic_df2['CabinLetter'] = titanic_df2['Cabin'].str.slice(0,1)
-X = titanic_df2.drop('Cabin',axis=1)#.dropna()
-X['CabinLetter'] = X['CabinLetter'].fillna("?")
-X['Pclass'] = X['Pclass'].astype(str)
-X['SibSp'] = X['SibSp'].astype(str)
-X['Parch'] = X['Parch'].astype(str)
+features = ['Sex','Age','Education','Income','Fruits','Veggies','Smoker', "HighChol", "BMI"]
+X = diabetes_df.loc[:,features][:1000]
 X = X.dropna()
-
 X2 = X.copy()
-X2['Age'] = pd.cut(X2['Age'],bins=20).astype(str) # bin Age up
-X2['Age'].value_counts()
-
-X2['Fare'] = pd.cut(X2['Fare'],bins=20).astype(str) # bin Age up
-X2['Fare'].value_counts()
-
-t = titanic_df.loc[X2.index,'Survived']
+X2['BMI'] = pd.cut(X2['BMI'],bins=20).astype(str) # bin Age up
+t = diabetes_df.loc[X2.index,'Diabetes_012']
 
 m = 1000
 
