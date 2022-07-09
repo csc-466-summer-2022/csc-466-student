@@ -94,11 +94,11 @@ def test_exercise_8():
     
     import Lab3_helper
     
-    cm_id3 = Lab3_helper.confusion_matrix(t_test,y_id3,labels=[0,1])
-    stats_id3 = Lab3_helper.evaluation(cm_id3,positive_class=1)
+    cm_id3 = Lab3_helper.confusion_matrix(t_test,y_id3,labels=[0,1,2])
+    stats_id3 = Lab3_helper.evaluation(cm_id3,positive_class=2)
     
-    cm_c45 = Lab3_helper.confusion_matrix(t_test,y_c45,labels=[0,1])
-    stats_c45 = Lab3_helper.evaluation(cm_c45,positive_class=1)
+    cm_c45 = Lab3_helper.confusion_matrix(t_test,y_c45,labels=[0,1,2])
+    stats_c45 = Lab3_helper.evaluation(cm_c45,positive_class=2)
     
     source = pd.DataFrame.from_records([stats_id3,stats_c45])
     source['Method'] = ['ID3','C4.5']
