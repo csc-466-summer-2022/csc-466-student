@@ -74,7 +74,7 @@ def test_exercise_6():
     assert process(answers['exercise_6']) == process(rules)
     
 def test_exercise_7():
-    tree2 = Lab4_helper.make_tree2(X,t,min_split_count=20)
+    tree2 = Lab4_helper.make_tree2(X,t,min_split_count=5)
     assert answers['exercise_7'] == tree2
     
 def test_exercise_8():
