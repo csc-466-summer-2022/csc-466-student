@@ -86,7 +86,7 @@ def test_exercise_8():
 
     tree_id3 = Lab4_helper.make_tree(X2_train,t_train)
     rules_id3 = Lab4_helper.generate_rules(tree_id3)
-    tree_c45 = Lab4_helper.make_tree2(X_train,t_train)
+    tree_c45 = Lab4_helper.make_tree2(X_train,t_train, min_split_count=20)
     rules_c45 = Lab4_helper.generate_rules(tree_c45)
 
     y_id3 = X2_test.apply(lambda x: Lab4_helper.make_prediction(rules_id3,x,default),axis=1)
@@ -94,6 +94,7 @@ def test_exercise_8():
     
     import Lab3_helper
     
+    # Evaluate the id3
     cm_id3 = Lab3_helper.confusion_matrix(t_test,y_id3,labels=[0,1,2])
     stats_id3 = Lab3_helper.evaluation(cm_id3,positive_class=2)
     
