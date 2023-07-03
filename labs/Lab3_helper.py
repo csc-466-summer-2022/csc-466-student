@@ -31,11 +31,10 @@ def train(X,t,nepochs=200,n=0.5,test_size=0.3,val_size=0.3,seed=0):
     return w,X_test,t_test,results
 
 def evaluate_baseline(t_test,t_train2,t_val):
-    frac_max_class = None
     accuracy_test = None
     accuracy_train2 = None
     accuracy_val = None
-    return frac_max_class,accuracy_test,accuracy_train2,accuracy_val
+    return accuracy_test,accuracy_train2,accuracy_val
 
 def predict(w,X,threshold=0.5):
     y = None
