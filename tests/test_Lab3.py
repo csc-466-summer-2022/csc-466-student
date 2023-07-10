@@ -48,7 +48,7 @@ def test_exercise_1():
         ## Your solution in evaluate_baseline(...)
         accuracy_test,accuracy_train2,accuracy_val = Lab3_helper.evaluate_baseline(t_test,t_train2,t_val)
 
-        results = pd.concat(results,pd.Series([accuracy_test,accuracy_train2,accuracy_val],index=results.columns,name=seed))
+        results = pd.concat((results,pd.Series([accuracy_test,accuracy_train2,accuracy_val],index=results.columns,name=seed)))
     m = 1000
     assert np.all(np.round(m*answers['exercise_1'].values.astype(float)) == np.round(m*results.values.astype(float)))
 
